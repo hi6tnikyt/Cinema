@@ -1,8 +1,11 @@
 ﻿
 
+using System.ComponentModel;
 using System.Globalization;
 using CinemaApp.Data;
+using CinemaApp.Data.Models;
 using CinemaApp.Data.Repository.Contracts;
+using CinemaApp.GCommon.Exceptions;
 using CinemaApp.Services.Core.Contracts;
 using CinemaApp.Web.ViewModels.Movie;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +20,26 @@ namespace CinemaApp.Services.Core
         {
             this.movieRepository = movieRepository;
         }
+
+        public async Task CreateMovieAsync(MovieFormModel formModel)
+        {
+            Movie newMovie = new Movie()
+            {
+                Title = formModel.Title,
+                Genre = formModel.Genre,
+                ReleaseDate = DateOnly.FromDateTime(formModel.ReleaseDate),
+                Description = formModel.Description,
+                Director = formModel.Director,
+                ImageUrl = formModel.ImageUrl,
+                Duration = formModel.Duration
+            };
+         bool successAdd =  await movieRepository.CreateMovieAsync(newMovie);
+            if (!successAdd)
+            {
+                throw new EntityCreatePersistFailException();
+            }
+        }
+
         public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync()
         {
             IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = await this.movieRepository

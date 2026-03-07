@@ -8,5 +8,8 @@ namespace CinemaApp.Data.Repository.Contracts
         IQueryable<Movie> GetAllMoviesNoTracking();
 
         Task<IEnumerable<Movie>> GetAllMovies();
+
+        Task<bool> CreateMovieAsync(Movie movie);
+
     }
 }

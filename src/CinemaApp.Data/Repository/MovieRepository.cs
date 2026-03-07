@@ -13,6 +13,13 @@ namespace CinemaApp.Data.Repository
             this.dbContext = dbContext;
         }
 
+        public async Task<bool> CreateMovieAsync(Movie movie)
+        {
+           await dbContext.Movies.AddAsync(movie);
+            int resultCount = await SaveChangesAsync();
+            return resultCount > 0;
+        }
+
         public async Task<IEnumerable<Movie>> GetAllMovies()
         {
             return await this.dbContext
@@ -27,6 +34,11 @@ namespace CinemaApp.Data.Repository
             return this.dbContext
                  .Movies
                  .AsNoTracking();
+        }
+
+        private async Task<int> SaveChangesAsync()
+        {
+           return await dbContext.SaveChangesAsync();
         }
     }
 }
