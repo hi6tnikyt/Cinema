@@ -146,5 +146,37 @@ namespace CinemaApp.Services.Core
                 Duration = movieDb.Duration
             };
         }
+
+        public async Task HardDeleteMovieAsync(Guid id)
+        {
+            Movie? movieDb = await movieRepository
+               .GetMovieByIdAsync(id);
+            if (movieDb == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            bool deleteSuccess = await movieRepository.HardDeleteMovieAsync(movieDb);
+            if (!deleteSuccess)
+            {
+                throw new EntityCreatePersistFailException();
+            }
+        }
+
+        public async Task SoftDeleteMovieAsync(Guid id)
+        {
+            Movie? movieDb = await movieRepository
+                .GetMovieByIdAsync(id);
+            if (movieDb == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+           bool deleteSuccess = await movieRepository.SoftDeleteMovieAsync(movieDb);
+            if (!deleteSuccess)
+            { 
+             throw new EntityCreatePersistFailException();
+            }
+        }
     }
 }

@@ -16,5 +16,9 @@ namespace CinemaApp.Data.Repository.Contracts
         Task<bool> EditMovieAsync(Movie movie);
 
         Task<bool> ExistByIdAsync(Guid id);
+
+        Task<bool> HardDeleteMovieAsync(Movie movie);
+
+        Task<bool> SoftDeleteMovieAsync(Movie movie);
     }
 }
