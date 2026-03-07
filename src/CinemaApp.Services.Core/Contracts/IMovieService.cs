@@ -9,5 +9,7 @@ namespace CinemaApp.Services.Core.Contracts
         Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync();
 
         Task CreateMovieAsync(MovieFormModel formModel);
+
+        Task<MovieDetailsViewModel?> GetMovieDetailsByIdAsync(Guid id);
     }
 }

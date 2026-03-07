@@ -69,5 +69,12 @@ namespace CinemaApp.Data.Repository
             }
             return await movieFetchQuery.ToArrayAsync();
         }
+
+        public async Task<Movie?> GetMovieByIdAsync(Guid id)
+        {
+            return await this.dbContext
+                 .Movies
+                 .FindAsync(id);
+        }
     }
 }

@@ -9,8 +9,10 @@ namespace CinemaApp.Data.Repository.Contracts
         Task<IEnumerable<Movie>> GetAllMoviesNoTrackingAsync(Expression<Func<Movie, Movie>>? projectFunc = null);
 
         Task<IEnumerable<Movie>> GetAllMovies();
+        Task<Movie?> GetMovieByIdAsync(Guid id);
 
         Task<bool> CreateMovieAsync(Movie movie);
+
 
     }
 }
