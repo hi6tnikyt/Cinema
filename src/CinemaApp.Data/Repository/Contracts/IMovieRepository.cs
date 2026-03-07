@@ -1,11 +1,12 @@
 ﻿
+using System.Linq.Expressions;
 using CinemaApp.Data.Models;
 
 namespace CinemaApp.Data.Repository.Contracts
 {
     public interface IMovieRepository
     {
-        IQueryable<Movie> GetAllMoviesNoTracking();
+        Task<IEnumerable<Movie>> GetAllMoviesNoTrackingAsync(Expression<Func<Movie, Movie>>? projectFunc = null);
 
         Task<IEnumerable<Movie>> GetAllMovies();
 

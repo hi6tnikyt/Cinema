@@ -42,9 +42,20 @@ namespace CinemaApp.Services.Core
 
         public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync()
         {
-            IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = await this.movieRepository
-                .GetAllMoviesNoTracking()
-                .AsNoTracking()
+           // Fetch data from database
+            IEnumerable<Movie> allMoviesDb = await this.movieRepository
+                .GetAllMoviesNoTrackingAsync(m => new Movie()
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Genre = m.Genre,
+                    ReleaseDate = m.ReleaseDate,
+                    Director = m.Director,
+                    ImageUrl = m.ImageUrl
+                });
+
+            // Process data (mapping)
+            IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = allMoviesDb
                 .Select(m => new AllMoviesIndexViewModel()
                 {
                     Id = m.Id,
@@ -57,8 +68,9 @@ namespace CinemaApp.Services.Core
                 .OrderBy(m => m.Title)
                 .ThenBy(m => m.Genre)
                 .ThenBy(m => m.Director)
-                .ToArrayAsync();
+                .ToArray();
 
+            // return data
             return allMoviesViewModel;
         }
     }
