@@ -40,6 +40,36 @@ namespace CinemaApp.Services.Core
             }
         }
 
+        public async Task EditMovieAsync(Guid id, MovieFormModel movieFormModel)
+        {
+            Movie? movieDb = await movieRepository
+                 .GetMovieByIdAsync(id);
+
+            if (movieDb == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            movieDb.Title = movieFormModel.Title;
+            movieDb.Genre = movieFormModel.Genre;
+            movieDb.ReleaseDate = DateOnly.FromDateTime(movieFormModel.ReleaseDate);
+            movieDb.Description = movieFormModel.Description;
+            movieDb.Director = movieFormModel.Director;
+            movieDb.ImageUrl = movieFormModel.ImageUrl;
+            movieDb.Duration = movieFormModel.Duration;
+
+           bool editSuccess = await movieRepository.EditMovieAsync(movieDb);
+            if (!editSuccess)
+            { 
+             throw new EntityEditPersistFailException();
+            }
+        }
+
+        public async Task<bool> ExistsByIdAsync(Guid id)
+        {
+           return await movieRepository.ExistByIdAsync(id);
+        }
+
         public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync()
         {
            // Fetch data from database
@@ -93,6 +123,28 @@ namespace CinemaApp.Services.Core
                ImageUrl = movieDb.ImageUrl ?? DefaultImageUrl,
                Duration = movieDb.Duration
            };
+        }
+
+        public async Task<MovieFormModel> GetMovieFormModelByIdAsync(Guid id)
+        {
+            Movie? movieDb = await movieRepository
+                 .GetMovieByIdAsync(id);
+
+            if (movieDb == null)
+            {
+                return new MovieFormModel();
+            }
+
+            return new MovieFormModel()
+            {
+                Title = movieDb.Title,
+                Genre = movieDb.Genre,
+                ReleaseDate = movieDb.ReleaseDate.ToDateTime(TimeOnly.MinValue),
+                Description = movieDb.Description,
+                Director = movieDb.Director,
+                ImageUrl = movieDb.ImageUrl ?? DefaultImageUrl,
+                Duration = movieDb.Duration
+            };
         }
     }
 }

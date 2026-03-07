@@ -11,5 +11,11 @@ namespace CinemaApp.Services.Core.Contracts
         Task CreateMovieAsync(MovieFormModel formModel);
 
         Task<MovieDetailsViewModel?> GetMovieDetailsByIdAsync(Guid id);
+
+        Task<MovieFormModel> GetMovieFormModelByIdAsync(Guid id);
+        Task EditMovieAsync(Guid id, MovieFormModel formModel);
+
+        Task<bool> ExistsByIdAsync(Guid id);
+
     }
 }

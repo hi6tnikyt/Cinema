@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static CinemaApp.GCommon.OutputMessages.Movie;
 using static CinemaApp.GCommon.ApplicationConstants;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace CinemaApp.Web.Controllers
 {
     public class MovieController : BaseController
@@ -74,5 +75,49 @@ namespace CinemaApp.Web.Controllers
             }
             return View(movieDetails);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            MovieFormModel? movieFormModel = await movieService
+                .GetMovieFormModelByIdAsync(id);
+            if (movieFormModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(movieFormModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Guid id, MovieFormModel formModel)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest(); 
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(formModel);
+                
+            }
+
+            try
+            {
+                await movieService.EditMovieAsync(id, formModel);
+            }
+            catch (EntityNotFoundException enfe)
+            {
+                return NotFound();
+            }
+            catch (EntityCreatePersistFailException epfe)
+            {
+                logger.LogError(epfe, CreateMovieFailureMessage);
+                return View(formModel);
+            }
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
     }
 }
