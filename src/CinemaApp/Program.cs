@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using CinemaApp.Data;
 namespace CinemaApp.Web
 {
+    using CinemaApp.Web.Infrastructure.Extensions;
     using CinemaApp.Data;
     using CinemaApp.Data.Repository;
     using CinemaApp.Data.Repository.Contracts;
@@ -24,7 +25,9 @@ namespace CinemaApp.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+            builder.Services.RegisterRepositories(typeof(MovieRepository));
+
+            builder.Services.AddScoped<IWatchlistService, WatchlistService>();
 
             builder.Services.AddScoped<IMovieService, MovieService>();
 
