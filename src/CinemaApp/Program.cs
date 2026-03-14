@@ -27,9 +27,7 @@ namespace CinemaApp.Web
 
             builder.Services.RegisterRepositories(typeof(MovieRepository));
 
-            builder.Services.AddScoped<IWatchlistService, WatchlistService>();
-
-            builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.RegisterUserServices(typeof(MovieService));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => 
             {

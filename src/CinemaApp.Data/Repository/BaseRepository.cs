@@ -1,8 +1,10 @@
 ﻿
 
+using CinemaApp.Data.Repository.Contracts;
+
 namespace CinemaApp.Data.Repository
 {
-    public abstract class BaseRepository : IDisposable
+    public abstract class BaseRepository : IDisposable 
     {
         private bool isDisposed = false;
         private readonly CinemaAppDbContext dbContext;
