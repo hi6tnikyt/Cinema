@@ -70,22 +70,11 @@ namespace CinemaApp.Services.Core
            return await movieRepository.ExistByIdAsync(id);
         }
 
-        public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync()
+        public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync(string? userId = null)
         {
-           // Fetch data from database
-            IEnumerable<Movie> allMoviesDb = await this.movieRepository
-                .GetAllMoviesNoTrackingAsync(m => new Movie()
-                {
-                    Id = m.Id,
-                    Title = m.Title,
-                    Genre = m.Genre,
-                    ReleaseDate = m.ReleaseDate,
-                    Director = m.Director,
-                    ImageUrl = m.ImageUrl
-                });
+            var allMoviesDb = await this.movieRepository.GetAllMoviesWithWatchlistAsync();
 
-            // Process data (mapping)
-            IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = allMoviesDb
+            var allMoviesViewModel = allMoviesDb
                 .Select(m => new AllMoviesIndexViewModel()
                 {
                     Id = m.Id,
@@ -93,14 +82,13 @@ namespace CinemaApp.Services.Core
                     Genre = m.Genre.ToString(),
                     ReleaseDate = m.ReleaseDate.ToString(DefaultDateFormat, CultureInfo.InvariantCulture),
                     Director = m.Director,
-                    ImageUrl = m.ImageUrl ?? DefaultImageUrl
+                    ImageUrl = m.ImageUrl ?? DefaultImageUrl,
+                    IsInUserWatchlist = userId != null && m.MovieUsersWatchlist
+                        .Any(mu => mu.UserId == userId && mu.IsDeleted == false)
                 })
                 .OrderBy(m => m.Title)
-                .ThenBy(m => m.Genre)
-                .ThenBy(m => m.Director)
                 .ToArray();
 
-            // return data
             return allMoviesViewModel;
         }
 

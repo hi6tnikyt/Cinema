@@ -22,8 +22,9 @@ namespace CinemaApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            string? userId = GetUserId();
             IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = await movieService
-                .GetAllMoviesOrderedByTitleAsync();
+                .GetAllMoviesOrderedByTitleAsync(userId);
             return View(allMoviesViewModel);
         }
 

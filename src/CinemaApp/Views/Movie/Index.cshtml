@@ -1,54 +1,70 @@
-﻿
-@model IEnumerable<AllMoviesIndexViewModel>
+﻿@model IEnumerable<AllMoviesIndexViewModel>
 
 @{
     ViewData["Title"] = "All Movies";
 }
 
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-light fw-bold">Explore Movies</h1>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary fw-bold shadow-sm">
             <i class="bi bi-arrow-left"></i> Back to Home Page
         </a>
     </div>
 
-    <div class="d-flex flex-column gap-2">
+    <div class="d-flex flex-column gap-3">
         @foreach (AllMoviesIndexViewModel movie in Model)
         {
-            <div class="card shadow-lg border-0 rounded-3 d-flex flex-row align-items-center p-2"
+            <div class="card shadow-lg border-0 rounded-3 d-flex flex-row align-items-center p-2 bg-white"
                  style="height: 140px; max-height: 140px;">
 
-                <img src="@movie.ImageUrl" class="rounded"
+                <img src="@movie.ImageUrl" class="rounded shadow-sm"
                      alt="@movie.Title"
-                     style="width: 100px; height: 130px; object-fit: cover;">
+                     style="width: 100px; height: 125px; object-fit: cover;">
 
-                <div class="card-body ms-3 p-2 text-light" style="flex-grow: 1;">
-                    <h6 class="fw-bold mb-1 text-dark">@movie.Title</h6>
-                    <p class="text-muted mb-0" style="font-size: 0.85rem;">
+
+                <div class="card-body ms-3 p-2 text-dark" style="flex-grow: 1;">
+                    <h5 class="fw-bold mb-1 text-primary">@movie.Title</h5>
+                    <p class="mb-0" style="font-size: 0.9rem;">
                         <strong>Genre:</strong> @movie.Genre |
                         <strong>Director:</strong> @movie.Director
                     </p>
-                    <p class="text-muted mb-1" style="font-size: 0.85rem;">
-                        <strong>Released:</strong> @movie.ReleaseDate
+                    <p class="text-muted mb-0" style="font-size: 0.85rem;">
+                        <i class="bi bi-calendar-event"></i> Released: @movie.ReleaseDate
                     </p>
                 </div>
 
+
                 <div class="me-3 d-flex gap-2">
+
                     <a asp-area=""
                        asp-controller="Movie"
                        asp-action="Details"
                        asp-route-id="@movie.Id"
-                       class="btn btn-primary btn-sm rounded-pill px-4 fw-bold">
-                        <i class="bi bi-eye"></i> View Details
+                       class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm">
+                        <i class="bi bi-eye"></i> Details
                     </a>
 
-                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    @if (User?.Identity?.IsAuthenticated == true)
                     {
-                        <button class="btn btn-outline-warning btn-sm rounded-pill px-3 add-to-watchlist-btn"
-                                data-movie-id="@movie.Id">
-                            <i class="fas fa-bookmark"></i> Add to Watchlist
-                        </button>
+                        @if (movie.IsInUserWatchlist)
+                        {
+
+                            <button class="btn btn-success btn-sm rounded-pill px-4 fw-bold shadow-sm" disabled>
+                                <i class="bi bi-check-circle-fill"></i> In Watchlist
+                            </button>
+                        }
+                        else
+                        {
+
+                            <a asp-area=""
+                               asp-controller="Watchlist"
+                               asp-action="Add"
+                               asp-route-id="@movie.Id"
+                               class="btn btn-outline-warning btn-sm rounded-pill px-4 fw-bold shadow-sm">
+                                <i class="bi bi-bookmark-plus"></i> Add to Watchlist
+                            </a>
+                        }
                     }
                 </div>
             </div>
@@ -57,7 +73,7 @@
 </div>
 
 @section Styles {
-<link rel="stylesheet" href="~/css/user.css">
+    <link rel="stylesheet" href="~/css/user.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 }
-
-

@@ -52,6 +52,14 @@ namespace CinemaApp.Data.Repository
             return await movieFetchQuery.ToArrayAsync();
         }
 
+        public async Task<IEnumerable<Movie>> GetAllMoviesWithWatchlistAsync()
+        {
+            return await this.DbContext.Movies
+                .Include(m => m.MovieUsersWatchlist) 
+                .Where(m => m.IsDeleted == false)    
+                .ToListAsync();
+        }
+
         public async Task<Movie?> GetMovieByIdAsync(Guid id)
         {
             return await this.DbContext

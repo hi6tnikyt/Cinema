@@ -6,7 +6,7 @@ namespace CinemaApp.Services.Core.Contracts
 {
     public interface IMovieService
     {
-        Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync();
+        Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync(string? userId = null);
 
         Task CreateMovieAsync(MovieFormModel formModel);
 

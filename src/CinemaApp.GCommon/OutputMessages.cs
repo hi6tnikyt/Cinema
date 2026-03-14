@@ -37,5 +37,12 @@ namespace CinemaApp.GCommon
 
          
         }
+
+        public static class Watchlist
+        {
+            public const string MovieAlreadyInWatchlistMessage = "This movie is already in your watchlist.";
+            public const string MovieNotFoundMessage = "The specified movie was not found.";
+            public const string AddToWatchlistFailureMessage = "An error occurred while adding the movie to your watchlist. Please try again.";
+        }
     }
 }

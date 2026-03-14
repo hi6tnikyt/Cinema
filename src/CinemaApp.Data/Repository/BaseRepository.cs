@@ -14,6 +14,11 @@ namespace CinemaApp.Data.Repository
           this.dbContext = dbContext;
         }
 
+        protected async Task<int> SaveChangeAsync()
+        {
+            return await dbContext.SaveChangesAsync();
+        }
+
         protected CinemaAppDbContext DbContext
             => dbContext;
 
