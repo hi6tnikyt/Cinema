@@ -50,16 +50,17 @@ namespace CinemaApp.Web.Controllers
             catch (EntityCreatePersistFailException ecpfe)
             {
                 logger.LogError(ecpfe, CreateMovieFailureMessage);
-                ModelState.AddModelError(string.Empty, CreateMovieFailureMessage);
+                TempData[ErrorTemDataKey] = CreateMovieFailureMessage;
 
-                return View(formModel);
+
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, UnexpectedErrorMessage);
-                ModelState.AddModelError(string.Empty, UnexpectedErrorMessage);
+                TempData[ErrorTemDataKey] = UnexpectedErrorMessage;
 
-                return View(formModel);
+                return RedirectToAction(nameof(Index));
             }
             return RedirectToAction(nameof(Index));
         }
@@ -117,8 +118,11 @@ namespace CinemaApp.Web.Controllers
                 logger.LogError(epfe, CreateMovieFailureMessage);
                 return View(formModel);
             }
+
+            TempData[SuccessTempDataKey] = "Edited succes!";
             return RedirectToAction(nameof(Details), new { id });
         }
+
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id)
         {

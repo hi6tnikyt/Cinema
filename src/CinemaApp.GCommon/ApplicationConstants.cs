@@ -8,5 +8,10 @@ namespace CinemaApp.GCommon
         public const string DefaultImageUrl = "~/images/def-img.png";
 
         public static string UnexpectedErrorMessage = "An uncexpected error occurred. PLease try again  in a few minutes.";
+
+        public const string ErrorTemDataKey = "ErrorMessage";
+        public const string WarningTempDataKey = "WarningMessage";
+        public const string InfoTempDataKey = "InfoMessage";
+        public const string SuccessTempDataKey = "SuccessMessage";
     }
 }
