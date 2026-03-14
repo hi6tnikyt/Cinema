@@ -15,5 +15,7 @@ namespace CinemaApp.Web.ViewModels.Movie
         public string Director { get; set; } = null!;
 
         public string? ImageUrl { get; set; }
+
+        public bool IsInUserWatchlist { get; set; }
     }
 }

@@ -6,7 +6,19 @@ namespace CinemaApp.Services.Core.Contracts
 {
     public interface IMovieService
     {
-        Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync();
+        Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync(string? userId = null);
+
+        Task CreateMovieAsync(MovieFormModel formModel);
+
+        Task<MovieDetailsViewModel?> GetMovieDetailsByIdAsync(Guid id);
+
+        Task<MovieFormModel> GetMovieFormModelByIdAsync(Guid id);
+        Task EditMovieAsync(Guid id, MovieFormModel formModel);
+
+        Task<bool> ExistsByIdAsync(Guid id);
+
+        Task HardDeleteMovieAsync(Guid id);
+        Task SoftDeleteMovieAsync(Guid id);
 
     }
 }

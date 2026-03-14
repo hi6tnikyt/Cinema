@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using CinemaApp.Data;
 namespace CinemaApp.Web
 {
+    using CinemaApp.Web.Infrastructure.Extensions;
     using CinemaApp.Data;
+    using CinemaApp.Data.Repository;
+    using CinemaApp.Data.Repository.Contracts;
     using CinemaApp.Services.Core;
     using CinemaApp.Services.Core.Contracts;
     using Microsoft.AspNetCore.Identity;
@@ -22,7 +25,9 @@ namespace CinemaApp.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.RegisterRepositories(typeof(MovieRepository));
+
+            builder.Services.RegisterUserServices(typeof(MovieService));
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => 
             {
@@ -52,6 +57,8 @@ namespace CinemaApp.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseStatusCodePagesWithRedirects("/Home/StatusCodeError?code={0}");
 
             app.MapControllerRoute(
                 name: "default",
