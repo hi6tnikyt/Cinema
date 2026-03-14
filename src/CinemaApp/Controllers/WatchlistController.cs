@@ -31,7 +31,7 @@ namespace CinemaApp.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Add([FromRoute(Name = "id")]Guid movieId)
+        public async Task<IActionResult> Add([FromRoute(Name = "id")] Guid movieId)
         {
             string userId = GetUserId()!;
 
@@ -47,6 +47,21 @@ namespace CinemaApp.Web.Controllers
                 return BadRequest();
             }
 
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Remove([FromRoute(Name = "id")] Guid movieId)
+        {
+            string userId = GetUserId()!;
+            try
+            {
+                await watchlistService.RemoveMovieFromUserWatchlistAsync(userId, movieId);
+            }
+            catch (EntityNotFoundException enfe)
+            {
+                return BadRequest();
+            }
             return RedirectToAction(nameof(Index));
         }
     }
