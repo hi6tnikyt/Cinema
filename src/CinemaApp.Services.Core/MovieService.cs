@@ -83,7 +83,7 @@ namespace CinemaApp.Services.Core
                     ReleaseDate = m.ReleaseDate.ToString(DefaultDateFormat, CultureInfo.InvariantCulture),
                     Director = m.Director,
                     ImageUrl = m.ImageUrl ?? DefaultImageUrl,
-                    IsInUserWatchlist = userId != null && m.MovieUsersWatchlist
+                    IsInUserWatchlist = userId != null && m.UsersMoviesWatchlist
                         .Any(mu => mu.UserId == userId && mu.IsDeleted == false)
                 })
                 .OrderBy(m => m.Title)

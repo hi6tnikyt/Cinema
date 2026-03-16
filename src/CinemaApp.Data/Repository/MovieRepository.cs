@@ -55,7 +55,7 @@ namespace CinemaApp.Data.Repository
         public async Task<IEnumerable<Movie>> GetAllMoviesWithWatchlistAsync()
         {
             return await this.DbContext.Movies
-                .Include(m => m.MovieUsersWatchlist) 
+                .Include(m => m.UsersMoviesWatchlist) 
                 .Where(m => m.IsDeleted == false)    
                 .ToListAsync();
         }

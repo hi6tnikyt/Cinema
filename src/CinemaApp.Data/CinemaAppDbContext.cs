@@ -12,6 +12,14 @@
         }
 
         public virtual DbSet<Movie> Movies { get; set; } = null!;
+        public virtual DbSet<UserMovie> UsersMovies { get; set; } = null!;
+        public virtual DbSet<Cinema> Cinemas { get; set; } = null!;
+        public virtual DbSet<Projection> Projections { get; set; } = null!;
+        public virtual DbSet<Ticket> Tickets { get; set; } = null!;
+
+
+
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -34,7 +34,8 @@
 
         public bool IsDeleted { get; set; } = false;
 
-
+        public virtual ICollection<UserMovie> UsersMoviesWatchlist { get; set; }
+            = new List<UserMovie>(); 
 
         public virtual ICollection<Projection> Projections { get; set; }
                 = new HashSet<Projection>();
