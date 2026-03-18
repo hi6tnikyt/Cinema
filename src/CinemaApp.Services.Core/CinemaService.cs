@@ -2,6 +2,7 @@
 using CinemaApp.Data.Models;
 using CinemaApp.Data.Repository.Contracts;
 using CinemaApp.Services.Core.Contracts;
+using CinemaApp.Web.ViewModels.Cinema;
 
 namespace CinemaApp.Services.Core
 {
@@ -27,6 +28,32 @@ namespace CinemaApp.Services.Core
                     .ToArray(); 
 
             return allCinemas;
+        }
+
+        public async Task<CinemaProgramViewModel> GetCinemaProgramByIdAsync(Guid cinemaId)
+        {
+            Cinema? cinema = await _cinemaRepository.GetCinemaByIdIncludeMovies(cinemaId);
+
+            if (cinema == null)
+            {
+                return null;
+            }
+
+            return new CinemaProgramViewModel
+            {
+                Id = cinema.Id,
+                Name = cinema.Name,
+                Location = cinema.Location,
+                ProjectionsMovies = cinema.Projections
+                    .Select(p => new CinemaProgramMoviesViewModel
+                    {
+                        Id = p.Movie.Id,
+                        Title = p.Movie.Title,
+                        Director = p.Movie.Director,
+                        ImageUrl = p.Movie.ImageUrl
+                    })
+                    .ToList()
+            };
         }
     }
 }
