@@ -12,6 +12,8 @@ namespace CinemaApp.Web
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using CinemaApp.Data.Models;
+    using CinemaApp.Data.Seeding;
+    using CinemaApp.Data.Seeding.Contracts;
 
     public class Program
     {
@@ -30,6 +32,8 @@ namespace CinemaApp.Web
             builder.Services.RegisterRepositories(typeof(MovieRepository));
 
             builder.Services.RegisterUserServices(typeof(MovieService));
+
+            builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {
@@ -60,6 +64,9 @@ namespace CinemaApp.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseRolesSeeder();
+            app.UseAdminUserSeeder();
 
             app.UseStatusCodePagesWithRedirects("/Home/StatusCodeError?code={0}");
 
