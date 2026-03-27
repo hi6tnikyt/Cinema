@@ -35,7 +35,7 @@ namespace CinemaApp.Services.Core
             Ticket newTicket = new Ticket()
             {
                 ProjectionId = projectionId,
-                UserId = userId,
+                UserId = Guid.Parse(userId),
                 Quantity = quantity
             };
 

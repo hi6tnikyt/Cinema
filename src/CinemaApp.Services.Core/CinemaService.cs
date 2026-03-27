@@ -50,7 +50,7 @@ namespace CinemaApp.Services.Core
                         Id = p.Movie.Id,
                         Title = p.Movie.Title,
                         Director = p.Movie.Director,
-                        ImageUrl = p.Movie.ImageUrl
+                        ImageUrl = p.Movie.ImageUrl!
                     })
                     .ToList()
             };

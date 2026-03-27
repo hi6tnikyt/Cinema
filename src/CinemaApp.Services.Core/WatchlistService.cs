@@ -43,7 +43,7 @@ namespace CinemaApp.Services.Core
             {
                 UserMovie newUserMovie = new UserMovie()
                 {
-                    UserId = userId,
+                    UserId = Guid.Parse(userId),
                     MovieId = movieId,
                     IsDeleted = false
                 };
@@ -69,7 +69,7 @@ namespace CinemaApp.Services.Core
         public async Task<IEnumerable<WatchListMovieViewModel>> GetUserWatchListAsync(string userId)
         {
             return await dbContext.UsersMovies
-                .Where(um => um.UserId == userId && um.IsDeleted == false)
+                .Where(um => um.UserId.ToString() == userId && um.IsDeleted == false)
                 .Select(um => new WatchListMovieViewModel()
                 {
                     MovieId = um.Movie.Id,
@@ -101,7 +101,7 @@ namespace CinemaApp.Services.Core
         public async Task<bool> MovieIsInUserWatchlistAsync(string userId, Guid movieId)
         {
             return await dbContext.UsersMovies
-                .AnyAsync(um => um.UserId == userId && um.MovieId == movieId && um.IsDeleted == false);
+                .AnyAsync(um => um.UserId.ToString() == userId && um.MovieId == movieId && um.IsDeleted == false);
         }
     }
 }

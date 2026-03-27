@@ -11,6 +11,8 @@ namespace CinemaApp.Web
     using CinemaApp.Services.Core.Contracts;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using CinemaApp.Data.Models;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -29,10 +31,11 @@ namespace CinemaApp.Web
 
             builder.Services.RegisterUserServices(typeof(MovieService));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {
                 ConfigureIdentity(builder.Configuration, options);
             })
+                .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<CinemaAppDbContext>();
             builder.Services.AddControllersWithViews();
 

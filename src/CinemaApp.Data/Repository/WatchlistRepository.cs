@@ -21,7 +21,7 @@ namespace CinemaApp.Data.Repository
         {
             bool watchlistEntryExist = await DbContext
                 .UsersMovies
-                .AnyAsync(um => um.UserId == userId && um.MovieId == movieId);
+                .AnyAsync(um => um.UserId.ToString() == userId && um.MovieId == movieId);
 
             return watchlistEntryExist;
         }
@@ -41,7 +41,7 @@ namespace CinemaApp.Data.Repository
         {
             UserMovie? userMovie = await DbContext
                 .UsersMovies
-                .SingleOrDefaultAsync(um => um.UserId == userId && um.MovieId == movieId);
+                .SingleOrDefaultAsync(um => um.UserId.ToString() == userId && um.MovieId == movieId);
 
             return userMovie;
         }
@@ -51,7 +51,7 @@ namespace CinemaApp.Data.Repository
             UserMovie? userMovie = await DbContext
                .UsersMovies
                .IgnoreQueryFilters()
-               .SingleOrDefaultAsync(um => um.UserId == userId && um.MovieId == movieId);
+               .SingleOrDefaultAsync(um => um.UserId.ToString() == userId && um.MovieId == movieId);
             return userMovie;
         }
 

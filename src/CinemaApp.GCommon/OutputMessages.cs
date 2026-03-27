@@ -44,5 +44,10 @@ namespace CinemaApp.GCommon
             public const string MovieNotFoundMessage = "The specified movie was not found.";
             public const string AddToWatchlistFailureMessage = "An error occurred while adding the movie to your watchlist. Please try again.";
         }
+
+        public static class ApplicationUser
+        {
+            public const string UserAgeBelowMinimumMessage = "Users must be at least {0} years old!";
+        }
     }
 }

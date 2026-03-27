@@ -84,7 +84,7 @@ namespace CinemaApp.Services.Core
                     Director = m.Director,
                     ImageUrl = m.ImageUrl ?? DefaultImageUrl,
                     IsInUserWatchlist = userId != null && m.UsersMoviesWatchlist
-                        .Any(mu => mu.UserId == userId && mu.IsDeleted == false)
+                        .Any(mu => mu.UserId.ToString() == userId && mu.IsDeleted == false)
                 })
                 .OrderBy(m => m.Title)
                 .ToArray();
