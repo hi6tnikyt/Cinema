@@ -8,7 +8,7 @@ namespace CinemaApp.Data.Seeding
 {
     public class IdentitySeeder : IIdentitySeeder
     {
-        private readonly string[] ApplicationRoles = new[]
+        public static string[] ApplicationRoles = new[]
             {
             "Admin",
             "Moderator",
