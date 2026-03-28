@@ -1,5 +1,8 @@
 ﻿$(document).ready(function () {
-    $(".buy-ticket-btn").on("click", function () {
+    $(".buy-ticket-btn").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
         const cinemaId = $(this).attr("data-cinema-id");
         const cinemaName = $(this).attr("data-cinema-name");
         const movieId = $(this).attr("data-movie-id");
@@ -20,7 +23,7 @@
         $("#cinemaNamePlaceholder").text(cinemaName);
 
         const showTimesSelect = $("#showtime");
-        showTimesSelect.find("option").remove() // Clear existing options
+        showTimesSelect.find("option").remove() 
         .append('<option value="">Select Showtime...</option>');
         $.ajax({
             url: `/api/MovieApi/GetShowTimes?movieId=${movieId}&cinemaId=${cinemaId}`,
@@ -33,7 +36,7 @@
             },
             error: function (xhr) {
                 let errorMessage = "An error occurred while purchasing tickets.";
-                console.error("Raw Response:", xhr.responseText); // ✅ Log the raw response
+                console.error("Raw Response:", xhr.responseText);
 
                 try {
                     if (xhr.responseJSON) {
@@ -56,15 +59,19 @@
     });
 });
 
-$("#buyTicketButton").on("click", function () {
+$("#buyTicketButton").on("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
     const requestData = {
         cinemaId: $("#cinemaId").val().trim(),
         movieId: $("#movieId").val().trim(),
         quantity: parseInt($("#quantity").val(), 10),
-       showtime: $("#showtime").find(":selected").val()
+        showtime: $("#showtime").find(":selected").val(),
     };
 
-    console.log("Submitting Request:", requestData); // ✅ Added for Debugging
+
+    console.log("Submitting Request:", requestData); 
 
     if (!requestData.quantity || requestData.quantity < 1) {
         $("#errorMessage").text("Please enter a valid ticket quantity.").removeClass("d-none");
@@ -76,15 +83,18 @@ $("#buyTicketButton").on("click", function () {
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(requestData),
+        headers: {
+            "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+        },
         success: function (response) {
-            console.log("Success Response:", response); // ✅ Log the success response
+            console.log("Success Response:", response); 
 
             Swal.fire("Success!", "Your ticket has been purchased successfully!", "success");
             $("#buyTicketModal").modal("hide");
         },
         error: function (xhr) {
             let errorMessage = "An error occurred while purchasing tickets.";
-            console.error("Raw Response:", xhr.responseText); // ✅ Log the raw response
+            console.error("Raw Response:", xhr.responseText); 
 
             try {
                 if (xhr.responseJSON) {

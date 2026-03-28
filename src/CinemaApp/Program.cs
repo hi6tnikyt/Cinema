@@ -1,19 +1,18 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using CinemaApp.Data;
+
+
 namespace CinemaApp.Web
 {
     using CinemaApp.Web.Infrastructure.Extensions;
     using CinemaApp.Data;
     using CinemaApp.Data.Repository;
-    using CinemaApp.Data.Repository.Contracts;
     using CinemaApp.Services.Core;
-    using CinemaApp.Services.Core.Contracts;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using CinemaApp.Data.Models;
     using CinemaApp.Data.Seeding;
     using CinemaApp.Data.Seeding.Contracts;
+    using CinemaApp.Web.Infrastructure.Utilities.Contracts;
+    using CinemaApp.Web.Infrastructure.Utilities;
 
     public class Program
     {
@@ -34,6 +33,8 @@ namespace CinemaApp.Web
             builder.Services.RegisterUserServices(typeof(MovieService));
 
             builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
+
+            builder.Services.AddSingleton<ISlugGenerator, SlugGenerator>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {
@@ -73,6 +74,13 @@ namespace CinemaApp.Web
             app.MapControllerRoute(
                 name: "adminArea",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            app.MapControllerRoute(
+            name: "cinemaProgram",
+            pattern: "Cinema/Program/{slug}/{id}",
+            defaults: new { controller = "Cinema", action = "Program" });
+            app.MapControllerRoute(
+                name: "slugRoute",
+                pattern: "{controller=Home}/{action=Index}/{slug:required}/{id?}");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");

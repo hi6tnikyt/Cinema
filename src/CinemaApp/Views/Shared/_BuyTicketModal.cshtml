@@ -2,6 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
+            <form asp-area="" asp-controller="TicketApi" asp-action="BuyTicket">
             <div class="modal-header bg-dark text-white">
                 <h5 class="modal-title" id="buyTicketModalLabel">
                     Buy Ticket - <span id="cinemaNamePlaceholder"></span>
@@ -27,7 +28,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" id="buyTicketButton" class="btn btn-success fw-bold">Confirm Purchase</button>
             </div>
-
+            </form>
         </div>
     </div>
 </div>

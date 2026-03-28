@@ -1,4 +1,6 @@
-﻿@model IEnumerable<CinemaApp.Data.Models.Cinema>
+﻿@using CinemaApp.Web.Infrastructure.Utilities.Contracts
+@model IEnumerable<CinemaApp.Data.Models.Cinema>
+@inject ISlugGenerator SlugGenerator
 
 @{
     ViewData["Title"] = "Explore Cinemas";
@@ -40,7 +42,7 @@
 
                             <a asp-controller="Cinema"
                                asp-action="Program"
-                               asp-route-id="@cinema.Id"
+                               asp-route-id="@cinema.Id" asp-route-slug="@SlugGenerator.GenerateSlug(cinema.Name)"
                                class="btn btn-outline-primary btn-sm rounded-pill px-3">
                                 <i class="fas fa-eye"></i> View Program
                             </a>

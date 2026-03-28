@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaApp.Web.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class BaseController : Controller
     {
         public string? GetUserId()

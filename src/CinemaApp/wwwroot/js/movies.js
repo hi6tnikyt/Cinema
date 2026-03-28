@@ -26,7 +26,7 @@
             detailsContainer.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"></div></div>';
             movieDetailsModal.show();
 
-            fetch(`/Movie/DetailsPartial/${movieId}`)
+            fetch(`/movies/get-details/${movieId}`)
                 .then(response => {
                     if (!response.ok) throw new Error(`Status: ${response.status}`);
                     return response.text();

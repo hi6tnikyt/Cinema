@@ -28,9 +28,9 @@ namespace CinemaApp.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Program([FromRoute(Name = "id")] Guid cinemaId)
+        public async Task<IActionResult> Program(string slug, Guid id)
         {
-            CinemaProgramViewModel? model = await _cinemaService.GetCinemaProgramByIdAsync(cinemaId);
+            CinemaProgramViewModel? model = await _cinemaService.GetCinemaProgramByIdAsync(id);
 
             if (model == null)
             {

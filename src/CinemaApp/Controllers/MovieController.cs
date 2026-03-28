@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static CinemaApp.GCommon.OutputMessages.Movie;
 using static CinemaApp.GCommon.ApplicationConstants;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace CinemaApp.Web.Controllers
 {
+    [AllowAnonymous]
     public class MovieController : BaseController
     {
         private readonly IMovieService movieService;
@@ -121,6 +122,22 @@ namespace CinemaApp.Web.Controllers
 
             TempData[SuccessTempDataKey] = "Edited succes!";
             return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("movies/get-details/{id}")]
+        public async Task<IActionResult> DetailsPartial(Guid id)
+        {
+            MovieDetailsViewModel? movieDetails = await movieService
+                .GetMovieDetailsByIdAsync(id);
+
+            if (movieDetails == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("~/Views/Shared/_MovieDetailsPartial.cshtml", movieDetails);
         }
 
         [HttpGet]
