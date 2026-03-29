@@ -42,6 +42,19 @@ namespace CinemaApp.Web
             })
                 .AddRoles<IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<CinemaAppDbContext>();
+
+            builder.Services.AddCors(config =>
+            {
+                config.AddPolicy("AllowMvcDomain", policyBuilder =>
+                {
+                    policyBuilder
+                    .WithOrigins("https://localhost:7180")
+                    .WithMethods("GET", "POST")
+                    .AllowAnyHeader();
+                });
+            });
+            
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -62,6 +75,8 @@ namespace CinemaApp.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("AllowMvcDomain");
 
             app.UseAuthentication();
             app.UseAuthorization();
