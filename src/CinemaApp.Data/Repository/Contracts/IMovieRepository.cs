@@ -21,5 +21,7 @@ namespace CinemaApp.Data.Repository.Contracts
 
         Task<bool> SoftDeleteMovieAsync(Movie movie);
         Task<IEnumerable<Movie>> GetAllMoviesWithWatchlistAsync();
+
+        IQueryable<Movie> GetAllMoviesWithWatchlistQuery();
     }
 }

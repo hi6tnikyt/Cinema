@@ -21,12 +21,30 @@ namespace CinemaApp.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(MovieAllIndexViewModel movieAllInputModel)
         {
             string? userId = GetUserId();
-            IEnumerable<AllMoviesIndexViewModel> allMoviesViewModel = await movieService
-                .GetAllMoviesOrderedByTitleAsync(userId);
-            return View(allMoviesViewModel);
+
+            int pageSize = 3;
+
+            int currentPage = movieAllInputModel.PageNumber > 0 ? movieAllInputModel.PageNumber : 1;
+
+            var pagedMovies = await movieService
+                .GetAllMoviesOrderedByTitleAsync(userId, movieAllInputModel.SearchQuery, currentPage, pageSize);
+
+            int totalMoviesCount = await movieService.GetMoviesCountAsync(movieAllInputModel.SearchQuery);
+
+            int totalPages = (int)Math.Ceiling(totalMoviesCount / (double)pageSize);
+
+            MovieAllIndexViewModel movieAllVm = new MovieAllIndexViewModel()
+            {
+                SearchQuery = movieAllInputModel.SearchQuery,
+                PageNumber = currentPage,
+                TotalPages = totalPages,
+                Movies = pagedMovies.ToList()
+            };
+
+            return View(movieAllVm);
         }
 
         [HttpGet]

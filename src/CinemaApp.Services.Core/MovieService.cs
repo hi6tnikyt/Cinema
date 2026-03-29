@@ -70,11 +70,22 @@ namespace CinemaApp.Services.Core
            return await movieRepository.ExistByIdAsync(id);
         }
 
-        public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync(string? userId = null)
+        public async Task<IEnumerable<AllMoviesIndexViewModel>> GetAllMoviesOrderedByTitleAsync(string? userId = null, string? searchQuery = null, int pageNumber = 1, int pageSize = 5)
         {
-            var allMoviesDb = await this.movieRepository.GetAllMoviesWithWatchlistAsync();
+            var moviesQuery = this.movieRepository.GetAllMoviesWithWatchlistQuery();
 
-            var allMoviesViewModel = allMoviesDb
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                string normalizedSearch = searchQuery.ToLower().Trim();
+                moviesQuery = moviesQuery.Where(m => m.Title.ToLower().Contains(normalizedSearch) ||
+                                                    m.Director.ToLower().Contains(normalizedSearch));
+            }
+
+
+            var allMoviesViewModel = await moviesQuery
+                .OrderBy(m => m.Title)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .Select(m => new AllMoviesIndexViewModel()
                 {
                     Id = m.Id,
@@ -86,10 +97,23 @@ namespace CinemaApp.Services.Core
                     IsInUserWatchlist = userId != null && m.UsersMoviesWatchlist
                         .Any(mu => mu.UserId.ToString() == userId && mu.IsDeleted == false)
                 })
-                .OrderBy(m => m.Title)
-                .ToArray();
+                .ToListAsync();
 
             return allMoviesViewModel;
+        }
+
+        public async Task<int> GetMoviesCountAsync(string? searchQuery = null)
+        {
+            var query = this.movieRepository.GetAllMoviesWithWatchlistQuery();
+
+            if (!string.IsNullOrWhiteSpace(searchQuery))
+            {
+                string normalizedSearch = searchQuery.ToLower().Trim();
+                query = query.Where(m => m.Title.ToLower().Contains(normalizedSearch) ||
+                                         m.Director.ToLower().Contains(normalizedSearch));
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<MovieDetailsViewModel?> GetMovieDetailsByIdAsync(Guid id)

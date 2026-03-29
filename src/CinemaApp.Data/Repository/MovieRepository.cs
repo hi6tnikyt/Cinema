@@ -97,5 +97,12 @@ namespace CinemaApp.Data.Repository
             int resultCount = await SaveChangesAsync();
             return resultCount == 1;
         }
+
+        public IQueryable<Movie> GetAllMoviesWithWatchlistQuery()
+        {
+            return this.DbContext.Movies
+                .Include(m => m.UsersMoviesWatchlist) 
+                .Where(m => m.IsDeleted == false);    
+        }
     }
 }
