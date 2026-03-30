@@ -7,6 +7,7 @@ namespace CinemaApp.Data.Models
     public class ApplicationUser : IdentityUser<Guid>
     {
         public DateTime Birthdate { get; set; }
+
         public ICollection<Ticket> Tickets { get; set; }
             = new List<Ticket>();
 

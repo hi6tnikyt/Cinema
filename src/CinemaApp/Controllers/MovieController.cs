@@ -128,7 +128,7 @@ namespace CinemaApp.Web.Controllers
             {
                 await movieService.EditMovieAsync(id, formModel);
             }
-            catch (EntityNotFoundException enfe)
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
@@ -187,7 +187,7 @@ namespace CinemaApp.Web.Controllers
             {
                 await movieService.SoftDeleteMovieAsync(id);
             }
-            catch (EntityNotFoundException enfe)
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }

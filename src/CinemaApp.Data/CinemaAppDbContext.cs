@@ -18,17 +18,15 @@
         public virtual DbSet<Projection> Projections { get; set; } = null!;
         public virtual DbSet<Ticket> Tickets { get; set; } = null!;
 
-
+        public virtual DbSet<Manager> Managers { get; set; } = null!;
 
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // 1. ВИНАГИ ПЪРВО ВИКАМЕ БАЗАТА ЗА IDENTITY
             base.OnModelCreating(modelBuilder);
 
-            // 2. ТИПОВЕ ДАННИ ЗА ГРЕШКАТА, КОЯТО ИМАШЕ
             modelBuilder.Entity<Ticket>()
                 .Property(t => t.UserId)
                 .HasColumnType("uniqueidentifier");
@@ -37,7 +35,6 @@
                 .Property(u => u.Id)
                 .HasColumnType("uniqueidentifier");
 
-            // 3. СЪСТАВЕН КЛЮЧ ЗА UserMovie (Many-to-Many)
             modelBuilder.Entity<UserMovie>()
                 .HasKey(um => new { um.UserId, um.MovieId });
 
