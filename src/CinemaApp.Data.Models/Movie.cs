@@ -1,7 +1,9 @@
 ﻿namespace CinemaApp.Data.Models
 {
     using System.ComponentModel.DataAnnotations;
+
     using static Common.EntityValidation.Movie;
+
     public class Movie
     {
         [Key]
@@ -32,13 +34,10 @@
 
         public bool IsDeleted { get; set; } = false;
 
-        //public virtual ICollection<CinemaMovie> MovieCinemas { get; set; } 
-        //    = new HashSet<CinemaMovie>();
+        public virtual ICollection<UserMovie> UsersMoviesWatchlist { get; set; }
+            = new List<UserMovie>(); 
 
-        //public virtual ICollection<ApplicationUserMovie> MovieApplicationUsers { get; set; }
-        //    = new HashSet<ApplicationUserMovie>();
-
-        //public virtual ICollection<Ticket> Tickets { get; set; }
-        //    = new HashSet<Ticket>();
+        public virtual ICollection<Projection> Projections { get; set; }
+                = new HashSet<Projection>();
     }
 }

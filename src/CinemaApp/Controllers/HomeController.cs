@@ -26,9 +26,24 @@ namespace CinemaApp.Web.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult StatusCodeError(int code) 
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            if (code == StatusCodes.Status400BadRequest)
+            {
+                return View("BadRequest"); 
+            }
+
+            if(code == StatusCodes.Status404NotFound)
+            {
+                return View("NotFound");
+            }
+
+            if (code == StatusCodes.Status500InternalServerError)
+            {
+                return View("ServerError");
+            }
+
+            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

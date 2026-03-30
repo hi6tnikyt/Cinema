@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "500 Internal Server Error";
+}
+
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="text-center">
+        <svg width="96" height="96" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-4">
+            <circle cx="48" cy="48" r="46" stroke="#fd7e14" stroke-width="4" fill="#fff7f0" />
+            <text x="50%" y="54%" text-anchor="middle" fill="#fd7e14" font-size="48" font-family="Segoe UI, Arial, sans-serif" dy=".3em">500</text>
+        </svg>
+        <h1 class="display-4 text-warning mb-3">Internal Server Error</h1>
+        <p class="lead mb-4">
+            Sorry, something went wrong on our end.<br />
+            Please try again later or contact support if the problem persists.
+        </p>
+        <a href="@(Url.Action("Index", "Home"))" class="btn btn-primary btn-lg">
+            Go to Home
+        </a>
+    </div>
+</div>
+
+<style>
+    .display-4 {
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .lead {
+        color: #6c757d;
+    }
+    @@media (max-width: 576px) {
+        .display-4
+
+    {
+        font-size: 2rem;
+    }
+
+    svg {
+        width: 64px;
+        height: 64px;
+    }
+
+    }
+</style>
+

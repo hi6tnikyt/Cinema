@@ -7,3 +7,4 @@ namespace CinemaApp.Web.ViewModels
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }
+ 

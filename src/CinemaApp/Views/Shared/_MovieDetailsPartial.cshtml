@@ -1,0 +1,17 @@
+﻿@model MovieDetailsViewModel
+
+<div class="row">
+    <div class="col-md-5">
+        <img src="@Model.ImageUrl" class="img-fluid rounded shadow" alt="@Model.Title">
+    </div>
+    <div class="col-md-7 text-dark">
+        <h3 class="fw-bold text-primary">@Model.Title</h3>
+        <p><strong>Genre:</strong> @Model.Genre</p>
+        <p><strong>Director:</strong> @Model.Director</p>
+        <p><strong>Duration:</strong> @Model.Duration mins</p>
+        <p><strong>Release Date:</strong> @Model.ReleaseDate</p>
+        <hr />
+        <h5>Description:</h5>
+        <p>@Model.Description</p>
+    </div>
+</div>
